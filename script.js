@@ -1,5 +1,13 @@
-const table = document.querySelector('#cal-table');
-const container = document.querySelector('.container');
+const calendar = document.querySelector('.calendar');
+const selYear = document.querySelector('#select-year');
+const selMonth = document.querySelector('#select-month');
+
+for (let i = 2000; i < 2100; i++) {
+    let opt = document.createElement('option');
+    opt.text = i;
+    opt.value = i;
+    selYear.appendChild(opt);
+}
 
 const createCalendar = (year, month) => {
     let curMonth = new Date(year, month).getMonth();
@@ -38,6 +46,7 @@ const createCalendar = (year, month) => {
     }
     let tBody = table.createTBody();
     let keepLoop = true;
+    let startCal = true;
     let cellCount = 0;
     let dayCount = 1;
     while (keepLoop) {
@@ -47,8 +56,20 @@ const createCalendar = (year, month) => {
                 tBody.insertRow();
             }
             let lastRow = table.rows[table.rows.length - 1];
+            // add blank cells to begining
+            if (startCal && date.getDay() !== 0) {
+                let addSpaces = date.getDay();
+                for (let i = 0; i < addSpaces; i++) {
+                    lastRow.insertCell();
+                }
+                startCal = false;
+                cellCount = addSpaces;
+            } else {
+                startCal = false;
+            }
             let cell = lastRow.insertCell();
             cell.innerHTML = date.getDate();
+            cell.dataset.data = date;
             dayCount++;
             if (cellCount === 6) {
                 cellCount = 0;
@@ -59,7 +80,29 @@ const createCalendar = (year, month) => {
             keepLoop = false;
         }
     }
-    container.appendChild(table);
+    calendar.appendChild(table);
 };
 
-createCalendar(2021, 03);
+const removeOldCal = (par) => {
+    while (par.firstChild) {
+        par.removeChild(par.firstChild);
+    }
+};
+
+let today = new Date();
+selYear.value = today.getFullYear();
+selMonth.value = today.getMonth();
+
+window.onload = () => {
+    createCalendar(today.getFullYear(), today.getMonth());
+};
+
+selYear.addEventListener('change', () => {
+    removeOldCal(calendar);
+    createCalendar(selYear.value, selMonth.value);
+});
+
+selMonth.addEventListener('change', () => {
+    removeOldCal(calendar);
+    createCalendar(selYear.value, selMonth.value);
+});
