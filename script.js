@@ -2,7 +2,7 @@ const calendar = document.querySelector('.calendar');
 const selYear = document.querySelector('#select-year');
 const selMonth = document.querySelector('#select-month');
 
-for (let i = 2000; i < 2100; i++) {
+for (let i = 1900; i < 2100; i++) {
     let opt = document.createElement('option');
     opt.text = i;
     opt.value = i;
@@ -69,7 +69,7 @@ const createCalendar = (year, month) => {
             }
             let cell = lastRow.insertCell();
             cell.innerHTML = date.getDate();
-            cell.dataset.data = date;
+            cell.dataset.date = date;
             dayCount++;
             if (cellCount === 6) {
                 cellCount = 0;
@@ -106,3 +106,6 @@ selMonth.addEventListener('change', () => {
     removeOldCal(calendar);
     createCalendar(selYear.value, selMonth.value);
 });
+
+const selDay = document.querySelectorAll('td');
+selDay.addEventListener('click', (e) => console.log(e.target));
