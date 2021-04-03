@@ -1,0 +1,25 @@
+.calendar-container {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 10px 5px;
+    font-size: 1.2rem;
+}
+
+.calendar-selectors {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.highlight {
+    background-color: black;
+    color: white;
+}
+
+td {
+    text-align: center;
+}

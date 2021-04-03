@@ -1,6 +1,8 @@
-const calendar = document.querySelector('.calendar');
+const calendar = document.querySelector('#calendar');
 const selYear = document.querySelector('#select-year');
 const selMonth = document.querySelector('#select-month');
+
+let highlightedDay;
 
 for (let i = 1900; i < 2100; i++) {
     let opt = document.createElement('option');
@@ -81,12 +83,34 @@ const createCalendar = (year, month) => {
         }
     }
     calendar.appendChild(table);
+    addListenerToDays(calendar);
 };
 
 const removeOldCal = (par) => {
     while (par.firstChild) {
         par.removeChild(par.firstChild);
     }
+};
+
+const addListenerToDays = (table) => {
+    let tds = document.querySelectorAll('td');
+    tds.forEach((t) => {
+        if (t.dataset.date) {
+            t.classList.add('clickable');
+            t.addEventListener('click', (e) => {
+                highlightDay(e.target);
+            });
+        }
+    });
+};
+
+const highlightDay = (day) => {
+    if (highlightedDay) {
+        highlightedDay.classList.remove('highlight');
+    }
+    highlightedDay = day;
+    console.log(highlightedDay);
+    day.classList.add('highlight');
 };
 
 let today = new Date();
@@ -106,6 +130,3 @@ selMonth.addEventListener('change', () => {
     removeOldCal(calendar);
     createCalendar(selYear.value, selMonth.value);
 });
-
-const selDay = document.querySelectorAll('td');
-selDay.addEventListener('click', (e) => console.log(e.target));
