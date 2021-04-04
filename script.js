@@ -109,8 +109,9 @@ const highlightDay = (day) => {
         highlightedDay.classList.remove('highlight');
     }
     highlightedDay = day;
-    console.log(highlightedDay);
+    console.log(new Date(highlightedDay.dataset.date).toLocaleDateString());
     day.classList.add('highlight');
+    // return new Date(highlightedDay.dataset.date).toLocaleDateString();
 };
 
 let today = new Date();
